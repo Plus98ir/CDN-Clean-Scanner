@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CDN Clean Scanner</title>
+<meta name="description" content="Professional clean-IP scanner for Cloudflare, Fastly, Gcore and CloudFront: real upload test, per-ISP results (MCI, Irancell, TCI, RighTel), TLS fragment finder, and one-click sending to Hiddify / 3x-ui panels.">
+<meta property="og:title" content="CDN Clean Scanner">
+<meta property="og:description" content="Real-traffic CDN IP scanner, per ISP — with a TLS fragment finder and Hiddify / 3x-ui integration.">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:image" content="https://plus98ir.dpdns.org/CDN-Clean-Scanner/CDN-Clean-Scanner.png">
+<style>
+:root {
+  --bg: #0b0e13; --card: #141921; --card2: #1a2029; --text: #e8ebef; --muted: #9aa3ae; --line: #262d38;
+  --accent: #f38020; --accent2: #ffb35c; --accent-ink: #1a1009; --ok: #4ade80; --bad: #f87171; --violet: #a99bff;
+}
+@media (prefers-color-scheme: light) {
+  :root { --bg: #f4f5f7; --card: #ffffff; --card2: #f7f8fa; --text: #1b1f24; --muted: #5d6673; --line: #dde1e6;
+          --accent: #e5700f; --accent2: #d4660c; --accent-ink: #ffffff; --ok: #15803d; --bad: #b91c1c; --violet: #6d5bd0; }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.7 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+html[lang="fa"] body { font-family: Vazirmatn, "Segoe UI", Tahoma, sans-serif; line-height: 1.9; }
+a { color: var(--accent2); }
+code { background: var(--card2); border: 1px solid var(--line); padding: 1px 6px; border-radius: 5px; font-family: Consolas, Menlo, monospace; font-size: 13px; direction: ltr; unicode-bidi: isolate; }
+header { display: flex; align-items: center; gap: 12px; padding: 14px 32px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--card) 88%, transparent); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 5; }
+.logo { width: 34px; height: 34px; display: block; }
+header b { font-size: 17px; }
+.spacer { flex: 1; }
+.nav { display: flex; gap: 18px; }
+.nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+.nav a:hover { color: var(--text); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: transparent; color: var(--text); padding: 6px 12px; cursor: pointer; font: inherit; }
+.seg button.on { background: var(--accent); color: var(--accent-ink); }
+.gh { color: var(--text); text-decoration: none; border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; }
+main { width: 100%; padding: 24px 32px 40px; }
+.hero { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: 48px; align-items: center; padding: 28px 0 36px; }
+.hero::before { content: ""; position: absolute; inset: -40px -32px auto; height: 520px; z-index: -1; pointer-events: none;
+  background: radial-gradient(500px 340px at 15% 30%, rgba(243,128,32,.16), transparent 70%), radial-gradient(600px 400px at 85% 40%, rgba(124,92,255,.14), transparent 70%); }
+.badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--card); border-radius: 99px; padding: 4px 12px; font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.badge i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+.hero h1 { font-size: clamp(32px, 4vw, 56px); line-height: 1.12; margin: 0 0 16px; }
+.hero h1 span { background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero p { color: var(--muted); font-size: 17px; margin: 0 0 24px; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; border: 1px solid var(--line); color: var(--text); background: var(--card); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn:hover { border-color: var(--accent); }
+.small { font-size: 13px; color: var(--muted); margin-top: 12px; }
+.heroimg { width: 100%; height: auto; display: block; border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+.stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; }
+.stat b { display: block; font-size: 26px; line-height: 1.2; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stat span { color: var(--muted); font-size: 13px; }
+section { margin-top: 48px; }
+h2 { font-size: 26px; margin: 0 0 6px; }
+.lead { color: var(--muted); margin: 0 0 18px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px; }
+.grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid.run { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.card h3 { margin: 0 0 6px; font-size: 16px; }
+.card p { margin: 0; color: var(--muted); }
+.card.new { border-color: color-mix(in srgb, var(--violet) 45%, var(--line)); }
+.tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .3px; color: var(--violet); border: 1px solid color-mix(in srgb, var(--violet) 50%, transparent); border-radius: 99px; padding: 0 8px; margin-inline-start: 6px; vertical-align: 2px; }
+.ico { font-size: 22px; margin-bottom: 6px; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.gallery { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.gallery a { display: block; }
+.gallery figure { margin: 0; }
+.gallery img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 16px 40px rgba(0,0,0,.3); }
+.gallery figcaption { color: var(--muted); font-size: 13px; margin-top: 8px; }
+ol.steps { margin: 0; padding-inline-start: 22px; }
+ol.steps li { margin: 6px 0; }
+pre.cmd { direction: ltr; text-align: left; background: var(--card2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; white-space: pre-wrap; overflow-wrap: anywhere; font: 12.5px/1.7 Consolas, Menlo, monospace; margin: 0; }
+.note { background: var(--card2); border-inline-start: 3px solid var(--accent); border-radius: 8px; padding: 10px 14px; color: var(--muted); margin-top: 12px; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: start; }
+th { color: var(--muted); font-weight: 600; }
+.ok { color: var(--ok); } .bad { color: var(--bad); } .na { color: var(--muted); }
+.tablewrap { overflow-x: auto; }
+footer { border-top: 1px solid var(--line); padding: 18px 32px; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+[data-l] { display: none; }
+html[lang="fa"] [data-l="fa"], html[lang="en"] [data-l="en"] { display: revert; }
+html:not([lang="fa"]) [data-l="fa"], html:not([lang="en"]) [data-l="en"] { display: none !important; }
+@media (max-width: 1200px) {
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nav { display: none; }
+}
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; gap: 24px; padding-top: 8px; }
+  .cols, .grid.run { grid-template-columns: 1fr; }
+  .grid.three { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  header { padding: 10px 16px; gap: 8px; }
+  header b { font-size: 15px; }
+  .gh { display: none; }
+  main { padding: 16px 16px 32px; }
+  footer { padding: 16px; }
+  .btn { flex: 1 1 auto; justify-content: center; }
+  .hero p { font-size: 15.5px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat b { font-size: 22px; }
+  .gallery, .grid.three { grid-template-columns: 1fr; }
+  th, td { padding: 6px; font-size: 13px; }
+}
+</style>
+<script>window.goatcounter={path:function(){return "/"+location.pathname.split("/")[1]+"/"}};</script>
+<script data-goatcounter="https://plus98.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<header>
+  <img class="logo" src="icon.svg" alt="" width="34" height="34">
+  <b>CDN Clean Scanner</b>
+  <div class="spacer"></div>
+  <nav class="nav">
+    <a href="#features"><span data-l="fa">امکانات</span><span data-l="en">Features</span></a>
+    <a href="#fragment"><span data-l="fa">فرگمنت</span><span data-l="en">Fragment</span></a>
+    <a href="#panels"><span data-l="fa">پنل‌ها</span><span data-l="en">Panels</span></a>
+    <a href="#run"><span data-l="fa">نصب و اجرا</span><span data-l="en">Install</span></a>
+  </nav>
+  <a class="gh" href="https://github.com/Plus98ir/CDN-Clean-Scanner">GitHub</a>
+  <div class="seg" role="group" aria-label="Language">
+    <button data-lang="en">EN</button><button data-lang="fa">فا</button>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div>
+      <div class="badge"><i></i><span data-l="fa">تست با ترافیک واقعی، نه فقط پینگ</span><span data-l="en">Real traffic, not just a ping</span></div>
+      <h1 data-l="fa">اسکنر حرفه‌ای آی‌پی تمیز، <span>برای اینترنت خود شما</span></h1>
+      <h1 data-l="en">The professional clean-IP scanner, <span>for your own internet</span></h1>
+      <p data-l="fa">آی‌پی‌های Cloudflare، Fastly، Gcore و CloudFront را با آپلود واقعی تست می‌کند و نشان می‌دهد هر آی‌پی روی کدام اپراتور کار می‌کند. بهترین تنظیم فرگمنت را خودش پیدا می‌کند و آی‌پی‌های تمیز هر اپراتور را با یک کلیک در پنل Hiddify یا 3x-ui می‌نشاند.</p>
+      <p data-l="en">Tests Cloudflare, Fastly, Gcore and CloudFront IPs with a real upload and shows which IP works on which ISP. It finds the best TLS fragment setting by itself and puts each ISP's clean IPs into your Hiddify or 3x-ui panel in one click.</p>
+      <div class="btns">
+        <a class="btn primary" href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.exe">
+          ⬇ <span data-l="fa">ویندوز (exe)</span><span data-l="en">Windows (exe)</span></a>
+        <a class="btn primary" href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.apk">
+          ⬇ <span data-l="fa">اندروید (APK)</span><span data-l="en">Android (APK)</span></a>
+        <a class="btn" href="#run"><span data-l="fa">نحوهٔ اجرا</span><span data-l="en">How to run</span></a>
+      </div>
+      <div class="small" data-l="fa">ویندوز و اندروید · بدون نیاز به نصب چیز دیگری · آپدیت خودکار · روی دستگاه خودتان اجرا می‌شود.</div>
+      <div class="small" data-l="en">Windows and Android · nothing else to install · automatic update check · runs on your own device.</div>
+    </div>
+    <img class="heroimg" src="hero.png" alt="CDN Clean Scanner on desktop and phone" width="1600" height="1000">
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b>4</b><span data-l="fa">CDN با حدود ۱۴۰۰ رنج</span><span data-l="en">CDNs, ~1400 ranges</span></div>
+    <div class="stat"><b>5 KB</b><span data-l="fa">آپلود واقعی روی هر آی‌پی</span><span data-l="en">real upload per IP</span></div>
+    <div class="stat"><b>26</b><span data-l="fa">تنظیم فرگمنت، خودکار تست می‌شود</span><span data-l="en">fragment settings, tested for you</span></div>
+    <div class="stat"><b>2</b><span data-l="fa">پنل: Hiddify و 3x-ui</span><span data-l="en">panels: Hiddify and 3x-ui</span></div>
+    <div class="stat"><b>~120</b><span data-l="fa">دیتاسنتر با شهر و کشور</span><span data-l="en">datacenters with city and country</span></div>
+  </div>
+
+  <section>
+    <h2 data-l="fa">چرا پینگ کافی نیست؟</h2>
+    <h2 data-l="en">Why a ping is not enough</h2>
+    <div class="card">
+      <p data-l="fa">بعضی اپراتورها اجازه می‌دهند پینگ و هندشیک TLS به CDN برسد، اما بعد از حدود <b>۱٫۳ کیلوبایت</b> آپلود اتصال را قطع می‌کنند. اسکنرهای معمولی این آی‌پی‌ها را «سالم» نشان می‌دهند، ولی در عمل کار نمی‌کنند. این اسکنر از طریق هر آی‌پی یک آپلود واقعی (پیش‌فرض ۵ کیلوبایت) به دامنهٔ خودتان می‌فرستد و فقط آی‌پی‌هایی را نگه می‌دارد که واقعاً جواب بدهند.</p>
+      <p data-l="en">Some ISPs let the ping and TLS handshake through, then cut the connection after about <b>1.3 KB</b> of upload. Ordinary scanners mark those IPs as clean, but they don't work. This scanner sends a real upload (5 KB by default) to your own domain through every IP and keeps only the IPs that really answer.</p>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2 data-l="fa">امکانات</h2>
+    <h2 data-l="en">Features</h2>
+    <p class="lead" data-l="fa">از پیدا کردن آی‌پی تا نشاندن آن در پنل؛ همه در یک برنامه.</p>
+    <p class="lead" data-l="en">From finding the IPs to putting them in your panel, in one app.</p>
+    <div class="grid three">
+      <div class="card"><div class="ico">⬆️</div>
+        <h3 data-l="fa">تست با آپلود واقعی</h3><h3 data-l="en">Real upload test</h3>
+        <p data-l="fa">TLS با SNI دامنهٔ خودتان و یک آپلود واقعی؛ آی‌پی‌هایی که فقط هندشیک را رد می‌کنند حذف می‌شوند.</p>
+        <p data-l="en">TLS with your own domain as SNI plus a real upload; IPs that only pass the handshake are dropped.</p></div>
+      <div class="card"><div class="ico">📶</div>
+        <h3 data-l="fa">مقایسهٔ اپراتورها</h3><h3 data-l="en">Compare ISPs</h3>
+        <p data-l="fa">اپراتور با شمارهٔ AS خودکار تشخیص داده می‌شود و هر نتیجه زیر نام همان ذخیره می‌شود. جدول مقایسه نشان می‌دهد هر آی‌پی روی همراه اول، ایرانسل، مخابرات و رایتل چطور است.</p>
+        <p data-l="en">Your ISP is detected by AS number and every result is saved under it. The compare table shows how each IP does on MCI, Irancell, TCI and RighTel.</p></div>
+      <div class="card new"><div class="ico">🧩</div>
+        <h3 data-l="fa">فرگمنت TLS <span class="tag">جدید</span></h3><h3 data-l="en">TLS fragment <span class="tag">NEW</span></h3>
+        <p data-l="fa">ClientHello را تکه‌تکه می‌فرستد (tlshello یا TCP، مثل v2rayNG و Hiddify) تا DPI نتواند SNI را بخواند. آی‌پی‌هایی که بدون فرگمنت بسته‌اند دوباره پیدا می‌شوند.</p>
+        <p data-l="en">Sends the ClientHello in pieces (tlshello or TCP, like v2rayNG and Hiddify) so DPI can't read the SNI. IPs that are blocked without fragment show up again.</p></div>
+      <div class="card new"><div class="ico">🎯</div>
+        <h3 data-l="fa">پیدا کردن بهترین فرگمنت <span class="tag">جدید</span></h3><h3 data-l="en">Best-fragment finder <span class="tag">NEW</span></h3>
+        <p data-l="fa">۲۶ تنظیم فرگمنت و حالت بدون فرگمنت را روی آی‌پی‌های سالم امتحان می‌کند، بهترین را پیشنهاد می‌دهد و مقدارهای v2rayNG / Xray و Hiddify را آماده می‌نویسد.</p>
+        <p data-l="en">Tries 26 fragment settings and no fragment on working IPs, picks the best and writes out the v2rayNG / Xray and Hiddify values for you.</p></div>
+      <div class="card new"><div class="ico">🛰️</div>
+        <h3 data-l="fa">ارسال به پنل Hiddify و 3x-ui <span class="tag">جدید</span></h3><h3 data-l="en">Hiddify and 3x-ui panels <span class="tag">NEW</span></h3>
+        <p data-l="fa">دامنه‌ها و کانفیگ‌های پنل را با path خودکار می‌آورد، بهترین آی‌پی‌های هر اپراتور را می‌سازد و با یک کلیک در پنل می‌نویسد. 3x-ui با توکن API.</p>
+        <p data-l="en">Loads the panel's domains and configs with their paths, builds the best IPs of each ISP and writes them to the panel in one click. 3x-ui works with an API token.</p></div>
+      <div class="card"><div class="ico">🌐</div>
+        <h3 data-l="fa">۴ CDN، حدود ۱۴۰۰ رنج</h3><h3 data-l="en">4 CDNs, ~1400 ranges</h3>
+        <p data-l="fa">Cloudflare، Fastly، Gcore و Amazon CloudFront؛ هم لیست رسمی و هم همهٔ رنج‌هایی که هر CDN در اینترنت اعلام می‌کند.</p>
+        <p data-l="en">Cloudflare, Fastly, Gcore and Amazon CloudFront: the official lists plus every prefix each CDN announces.</p></div>
+      <div class="card"><div class="ico">📍</div>
+        <h3 data-l="fa">شهر و کشور دیتاسنتر</h3><h3 data-l="en">Datacenter city and country</h3>
+        <p data-l="fa">نشان می‌دهد هر آی‌پی روی اینترنت شما به کدام دیتاسنتر می‌رسد (مثلاً استکهلم یا باکو)، با فیلتر کشور و «پیدا کردن بیشتر» برای آی‌پی‌های همسایه.</p>
+        <p data-l="en">Shows which datacenter each IP lands in on your network (e.g. Stockholm, Baku), with a country filter and “Find more” for neighbouring IPs.</p></div>
+      <div class="card new"><div class="ico">🔔</div>
+        <h3 data-l="fa">آپدیت خودکار <span class="tag">جدید</span></h3><h3 data-l="en">Update check <span class="tag">NEW</span></h3>
+        <p data-l="fa">نسخهٔ جدید که بیاید، برنامه بنر می‌دهد و روی اندروید اعلان می‌فرستد؛ با لیست تغییرات و دکمهٔ دانلود.</p>
+        <p data-l="en">When a new build is out, the app shows a banner (and an Android notification) with the list of changes and a download button.</p></div>
+      <div class="card"><div class="ico">🔒</div>
+        <h3 data-l="fa">محلی و امن</h3><h3 data-l="en">Local and private</h3>
+        <p data-l="fa">همه‌چیز روی دستگاه خودتان اجرا می‌شود و هیچ داده‌ای جایی فرستاده نمی‌شود. لینک و رمز پنل فقط برای همان درخواست استفاده می‌شوند.</p>
+        <p data-l="en">Everything runs on your device and nothing is uploaded anywhere. Panel links, tokens and passwords are only used for that request.</p></div>
+    </div>
+  </section>
+
+  <section id="shots">
+    <h2 data-l="fa">تصاویر</h2>
+    <h2 data-l="en">Screenshots</h2>
+    <p class="lead" data-l="fa">همه از یک اسکن واقعی روی اینترنت مخابرات.</p>
+    <p class="lead" data-l="en">All from a real scan on a TCI connection.</p>
+    <div class="gallery">
+      <figure>
+        <a data-l="fa" href="img/scan-fa.png" target="_blank" rel="noopener"><img src="img/scan-fa.png" alt="نتیجهٔ اسکن" width="1440" height="900" loading="lazy"></a>
+        <a data-l="en" href="img/scan-en.png" target="_blank" rel="noopener"><img src="img/scan-en.png" alt="Scan results" width="1440" height="900" loading="lazy"></a>
+        <figcaption data-l="fa">نتیجهٔ اسکن: تأخیر، دیتاسنتر و کشور هر آی‌پی</figcaption>
+        <figcaption data-l="en">Scan results: latency, datacenter and country of each IP</figcaption>
+      </figure>
+      <figure>
+        <a data-l="fa" href="img/frag-fa.png" target="_blank" rel="noopener"><img src="img/frag-fa.png" alt="پیدا کردن بهترین فرگمنت" width="1440" height="900" loading="lazy"></a>
+        <a data-l="en" href="img/frag-en.png" target="_blank" rel="noopener"><img src="img/frag-en.png" alt="Best-fragment finder" width="1440" height="900" loading="lazy"></a>
+        <figcaption data-l="fa">پیدا کردن بهترین فرگمنت، با مقدارهای آمادهٔ کلاینت</figcaption>
+        <figcaption data-l="en">Best-fragment finder, with ready client values</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="fragment">
+    <h2 data-l="fa">فرگمنت: آی‌پی‌های بسته را دوباره باز کنید</h2>
+    <h2 data-l="en">Fragment: bring blocked IPs back</h2>
+    <div class="cols">
+      <div class="card">
+        <ol class="steps" data-l="fa">
+          <li>یک اسکن معمولی بزنید تا چند آی‌پی سالم پیدا شود (اگر هیچ‌کدام رد نشد، تیک «فرگمنت TLS» را بزنید و دوباره اسکن کنید).</li>
+          <li>در تب <b>فرگمنت</b>، «پیدا کردن بهترین فرگمنت» را بزنید. حدود یک دقیقه طول می‌کشد.</li>
+          <li>بهترین تنظیم با مقدارهای v2rayNG / Xray و Hiddify نشان داده می‌شود. «استفاده» همان را برای اسکن‌های بعدی تنظیم می‌کند.</li>
+        </ol>
+        <ol class="steps" data-l="en">
+          <li>Run a normal scan to find some working IPs (if none pass, tick “TLS fragment” and scan again).</li>
+          <li>In the <b>Fragment</b> tab press “Find the best fragment”. It takes about a minute.</li>
+          <li>The best setting is shown with the v2rayNG / Xray and Hiddify values. “Use” applies it to your next scans.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <p data-l="fa">اگر روی اینترنت شما بدون فرگمنت هم همه‌چیز رد شود، برنامه صادقانه می‌گوید <b>«فرگمنت لازم نیست»</b>؛ وگرنه تنظیمی را پیشنهاد می‌دهد که بیشترین آی‌پی را باز کرده و سریع‌تر است. همان مقدارها را در کلاینتتان بزنید:</p>
+        <p data-l="en">If everything passes without fragment on your internet, the app honestly says <b>“fragment is not needed”</b>; otherwise it suggests the setting that opened the most IPs, fastest. Put the same values in your client:</p>
+        <pre class="cmd">v2rayNG / Xray : packets tlshello · length 20-50 · interval 1-2
+Hiddify        : fragment size 20-50 · sleep 1-2</pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="panels">
+    <h2 data-l="fa">ارسال آی‌پی‌ها به پنل</h2>
+    <h2 data-l="en">Send the IPs to your panel</h2>
+    <p class="lead" data-l="fa">در تب «مقایسهٔ اینترنت‌ها»، بخش «ارسال به پنل». برای هر اپراتور بهترین آی‌پی‌هایش ساخته می‌شود؛ قبل از ارسال می‌توانید ویرایش کنید.</p>
+    <p class="lead" data-l="en">In the “Compare networks” tab, under “Send to a panel”. The best IPs of each ISP are built for you, and you can edit them before sending.</p>
+    <div class="cols">
+      <div class="card">
+        <h3>Hiddify</h3>
+        <p data-l="fa">لینک ادمین را بدهید. همهٔ دامنه‌ها با حالتشان می‌آیند و با DNS مشخص می‌شود کدام پشت CDN است. آی‌پی‌ها به‌شکل «IP اپراتور» در فیلد CDN IP نوشته می‌شوند و <b>هیدیفای به هر کاربر آی‌پی اپراتور خودش را می‌دهد.</b></p>
+        <p data-l="en">Give it your admin link. Every domain comes with its mode, and DNS shows which ones are behind a CDN. The IPs are written as “IP ISP” pairs into the CDN IP field, and <b>Hiddify gives every user their own ISP's IP.</b></p>
+      </div>
+      <div class="card">
+        <h3>3x-ui (Sanaei)</h3>
+        <p data-l="fa">آدرس پنل و <b>توکن API</b> (یا نام کاربری و رمز) را بدهید. کانفیگ‌های ws، httpupgrade، xhttp و grpc با دامنه و path می‌آیند. آی‌پی‌ها در External Proxy همان کانفیگ نوشته می‌شوند؛ ساب برای هر آی‌پی یک کانفیگ با اسم اپراتورش می‌دهد. کلاینت‌ها و بقیهٔ تنظیمات دست نمی‌خورند.</p>
+        <p data-l="en">Give it the panel address and an <b>API token</b> (or user name and password). The ws, httpupgrade, xhttp and grpc configs come with their domain and path. The IPs go into that config's External Proxy list, and the subscription gives one config per IP, named after its ISP. Clients and other settings are left alone.</p>
+      </div>
+    </div>
+    <div class="note" data-l="fa">با «استفاده برای اسکن»، دامنه و path همان کانفیگ خودکار در تنظیمات اسکن نوشته می‌شود.</div>
+    <div class="note" data-l="en">“Use for scanning” fills the scan settings with that config's domain and path.</div>
+  </section>
+
+  <section id="run">
+    <h2 data-l="fa">نحوهٔ اجرا</h2>
+    <h2 data-l="en">How to run</h2>
+    <div class="grid run">
+      <div class="card">
+        <h3 data-l="fa">ویندوز</h3><h3 data-l="en">Windows</h3>
+        <ol class="steps" data-l="fa">
+          <li><a href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.exe">CDN-Clean-Scanner.exe</a> را دانلود کنید و رویش دوبار کلیک کنید. پایتون لازم نیست.</li>
+          <li>صفحهٔ اسکنر در مرورگر باز می‌شود. CDN و دامنهٔ خودتان را وارد کنید و <b>شروع اسکن</b> را بزنید.</li>
+          <li>با بستن صفحه، برنامه هم خودش بسته می‌شود.</li>
+        </ol>
+        <ol class="steps" data-l="en">
+          <li>Download <a href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.exe">CDN-Clean-Scanner.exe</a> and double-click it. No Python needed.</li>
+          <li>The scanner page opens in your browser. Pick your CDN, enter your domain and press <b>Start scan</b>.</li>
+          <li>Close the page and the program exits by itself.</li>
+        </ol>
+        <div class="note" data-l="fa">اگر ویندوز هشدار داد («Windows protected your PC»)، روی More info و بعد Run anyway بزنید؛ این هشدار برای همهٔ برنامه‌های بدون امضای دیجیتال می‌آید.</div>
+        <div class="note" data-l="en">If Windows warns (“Windows protected your PC”), click More info → Run anyway; every program without a code signature gets this warning.</div>
+        <div class="note" data-l="fa">قبل از اسکن <b>فیلترشکن را خاموش کنید</b>؛ وگرنه فیلترشکن تست می‌شود، نه اینترنت شما.</div>
+        <div class="note" data-l="en"><b>Turn off your VPN</b> before scanning, otherwise you test the VPN, not your ISP.</div>
+      </div>
+      <div class="card">
+        <h3 data-l="fa">اندروید</h3><h3 data-l="en">Android</h3>
+        <ol class="steps" data-l="fa">
+          <li><a href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.apk">CDN-Clean-Scanner.apk</a> را دانلود و نصب کنید (اجازهٔ «نصب از منابع ناشناس» را بدهید).</li>
+          <li>برنامه را باز کنید؛ اگر اجازهٔ اعلان خواست، Allow بزنید تا آپدیت‌ها را خبر بدهد.</li>
+          <li>گوشی مستقیم روی اینترنت سیم‌کارت است: برای مقایسهٔ اپراتورها فقط سیم‌کارت یا دیتا را عوض کنید.</li>
+        </ol>
+        <ol class="steps" data-l="en">
+          <li>Download and install <a href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.apk">CDN-Clean-Scanner.apk</a> (allow “install unknown apps”).</li>
+          <li>Open it; allow notifications so it can tell you about updates.</li>
+          <li>The phone is on its SIM's internet directly: to compare ISPs just switch SIM / mobile data.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-l="fa">کدام آی‌پی روی کدام اپراتور؟</h2>
+    <h2 data-l="en">Which IP works on which ISP?</h2>
+    <div class="cols">
+      <div class="card">
+        <ol class="steps" data-l="fa">
+          <li>روی اینترنت اول (مثلاً وای‌فای مخابرات) یک اسکن معمولی انجام دهید.</li>
+          <li>به اینترنت دیگری وصل شوید، مثلاً هات‌اسپات گوشی با سیم‌کارت همراه اول، و دکمهٔ ↻ کنار «اینترنت شما» را بزنید.</li>
+          <li>در تب «مقایسهٔ اینترنت‌ها»، دکمهٔ «تست همین‌ها روی این اینترنت» را بزنید.</li>
+          <li>برای ایرانسل و بقیه تکرار کنید. با کلیک روی نام اپراتورها، فقط آی‌پی‌هایی می‌مانند که روی همه کار می‌کنند.</li>
+        </ol>
+        <ol class="steps" data-l="en">
+          <li>Scan normally on the first internet (e.g. home Wi-Fi).</li>
+          <li>Connect to another one, e.g. a phone hotspot on another SIM, and press ↻ next to “Your network”.</li>
+          <li>In “Compare networks”, press “Test these on this network”.</li>
+          <li>Repeat for every ISP. Click ISP names to keep only IPs that pass on all of them.</li>
+        </ol>
+      </div>
+      <div class="card tablewrap">
+        <table>
+          <thead><tr><th data-l="fa">آی‌پی</th><th data-l="en">IP</th>
+            <th data-l="fa">همراه اول</th><th data-l="en">MCI</th>
+            <th data-l="fa">ایرانسل</th><th data-l="en">Irancell</th>
+            <th data-l="fa">مخابرات</th><th data-l="en">TCI</th></tr></thead>
+          <tbody>
+            <tr><td><code>104.17.x.x</code></td><td class="ok"><bdi dir="ltr">✓ 120 ms</bdi></td><td class="ok"><bdi dir="ltr">✓ 210 ms</bdi></td><td class="ok"><bdi dir="ltr">✓ 95 ms</bdi></td></tr>
+            <tr><td><code>188.114.x.x</code></td><td class="ok"><bdi dir="ltr">✓ 140 ms</bdi></td><td class="bad">✗</td><td class="ok"><bdi dir="ltr">✓ 180 ms</bdi></td></tr>
+            <tr><td><code>172.67.x.x</code></td><td class="bad">✗</td><td class="ok"><bdi dir="ltr">✓ 300 ms</bdi></td><td class="na">—</td></tr>
+          </tbody>
+        </table>
+        <p class="small" data-l="fa">نمونهٔ جدول مقایسه (✓ کار می‌کند، ✗ کار نمی‌کند، — هنوز تست نشده)</p>
+        <p class="small" data-l="en">Example of the compare table (✓ works, ✗ fails, — not tested yet)</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-l="fa">سؤال‌های رایج</h2>
+    <h2 data-l="en">FAQ</h2>
+    <div class="grid three">
+      <div class="card">
+        <h3 data-l="fa">چرا نسخهٔ آنلاین ندارد؟</h3><h3 data-l="en">Why is there no online version?</h3>
+        <p data-l="fa">مرورگر نمی‌تواند به یک آی‌پی خام با SNI دلخواه وصل شود، و اسکن باید روی اینترنت خود شما انجام شود، نه روی یک سرور خارجی. برای همین برنامه روی دستگاه خودتان اجرا می‌شود.</p>
+        <p data-l="en">A browser cannot open TLS to a raw IP with a custom SNI, and the scan must run on your own internet, not on a remote server. So it runs on your device.</p></div>
+      <div class="card">
+        <h3 data-l="fa">چه دامنه‌ای لازم دارم؟</h3><h3 data-l="en">What domain do I need?</h3>
+        <p data-l="fa">یک دامنه یا ساب‌دامنه روی همان CDN؛ مثلاً در کلادفلر با پروکسی روشن (ابر نارنجی). اگر پنل دارید، دامنه را از خود پنل بیاورید. پاسخ HTTP 52x هم یعنی آی‌پی سالم است.</p>
+        <p data-l="en">A domain or subdomain on that CDN, e.g. on Cloudflare with the proxy on (orange cloud). If you have a panel, load the domain from it. HTTP 52x still means the IP works.</p></div>
+      <div class="card">
+        <h3 data-l="fa">فرگمنت لازم دارم؟</h3><h3 data-l="en">Do I need fragment?</h3>
+        <p data-l="fa">به اینترنتتان بستگی دارد. تب «فرگمنت» دقیقاً همین را می‌سنجد: اگر بدون فرگمنت هم همه رد شوند می‌گوید لازم نیست؛ وگرنه بهترین تنظیم را می‌دهد.</p>
+        <p data-l="en">It depends on your internet. The Fragment tab measures exactly that: if everything passes without it, it says so; otherwise it gives you the best setting.</p></div>
+      <div class="card">
+        <h3 data-l="fa">آی‌پی کشور خاص می‌خواهم</h3><h3 data-l="en">I want IPs in a specific country</h3>
+        <p data-l="fa">آی‌پی‌های CDN «Anycast» هستند و کشورشان را مسیریابی اپراتور تعیین می‌کند. اسکنر نشان می‌دهد هر آی‌پی روی اینترنت شما به کجا می‌رسد و می‌توانید بر اساس کشور فیلتر کنید.</p>
+        <p data-l="en">CDN IPs are anycast: your ISP's routing decides the country. The scanner shows where each IP lands on your network and lets you filter by country.</p></div>
+      <div class="card">
+        <h3 data-l="fa">رمز و توکن پنل کجا ذخیره می‌شود؟</h3><h3 data-l="en">Where are panel passwords stored?</h3>
+        <p data-l="fa">هیچ‌جا، مگر خودتان «روی همین دستگاه بماند» را تیک بزنید؛ آن هم فقط در مرورگر همین دستگاه. برنامه مستقیم با پنل شما حرف می‌زند و هیچ سرور واسطی ندارد.</p>
+        <p data-l="en">Nowhere, unless you tick “Remember”, and then only in this device's browser. The app talks to your panel directly, with no server in between.</p></div>
+      <div class="card">
+        <h3 data-l="fa">روی اندروید روت لازم دارد؟</h3><h3 data-l="en">Does Android need root?</h3>
+        <p data-l="fa">نه. APK مثل هر برنامهٔ دیگری نصب می‌شود و همان صفحهٔ اسکنر را داخل خودش اجرا می‌کند. فایل‌های ‎.txt و ‎.csv در پوشهٔ Download ذخیره می‌شوند.</p>
+        <p data-l="en">No. The APK installs like any app and runs the same scanner page inside it. .txt and .csv files are saved to your Download folder.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>CDN Clean Scanner</span>
+  <a href="https://github.com/Plus98ir/CDN-Clean-Scanner">GitHub</a>
+  <a href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest"><span data-l="fa">آخرین نسخه</span><span data-l="en">Latest release</span></a>
+  <a href="https://plus98ir.dpdns.org/"><span data-l="fa">پروژه‌های دیگر</span><span data-l="en">More projects</span></a>
+</footer>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search).get('lang'), saved;
+  try { saved = localStorage.getItem('cdnscan.site.lang'); } catch (e) {}
+  var lang = q === 'en' || q === 'fa' ? q : saved || ((navigator.language || '').indexOf('fa') === 0 ? 'fa' : 'en');
+  function apply(l) {
+    lang = l;
+    document.documentElement.lang = l;
+    document.documentElement.dir = l === 'fa' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-lang]').forEach(function (b) { b.classList.toggle('on', b.dataset.lang === l); });
+    try { localStorage.setItem('cdnscan.site.lang', l); } catch (e) {}
+  }
+  document.querySelectorAll('[data-lang]').forEach(function (b) { b.onclick = function () { apply(b.dataset.lang); }; });
+  apply(lang);
+})();
+</script>
+</body>
+</html>
