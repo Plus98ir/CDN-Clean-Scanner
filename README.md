@@ -28,6 +28,7 @@ The app checks for new builds by itself and shows a banner (plus a notification 
 |---|---|
 | ⬆️ **Real upload test** | TLS with your domain as SNI + a real upload; IPs that only pass the handshake are dropped. |
 | 📶 **Per-ISP results** | The ISP is detected by AS number and every result is saved under it. *Compare networks* has one column per ISP. |
+| 🔌 **Full test** | For ws / httpupgrade configs: a real WebSocket on your config's path (expects 101), then data both ways, to find IPs that pass a simple test but give no ping in the client. |
 | 🧩 **TLS fragment** | Sends the ClientHello in pieces (`tlshello` or TCP `1-1`, like v2rayNG / Xray / Hiddify) so DPI can't read the SNI. |
 | 🎯 **Best-fragment finder** | Tries 26 fragment settings and no fragment on working IPs, picks the best and prints the client values. |
 | 🛰️ **Hiddify / 3x-ui panels** | Loads the panel's domains / configs with their path, builds the best IPs per ISP and writes them in one click. |
@@ -83,6 +84,7 @@ In step 5, **Save the IPs** → **Send to the panel** (connect to the panel in s
 
 - ⬆️ **تست با آپلود واقعی:** آی‌پی‌هایی که فقط هندشیک را رد می‌کنند حذف می‌شوند.
 - 📶 **نتیجه برای هر اپراتور:** اپراتور با شمارهٔ AS خودکار تشخیص داده می‌شود؛ در «مقایسهٔ اینترنت‌ها» هر اپراتور یک ستون است.
+- 🔌 **تست کامل:** برای کانفیگ‌های ws و httpupgrade یک WebSocket واقعی روی مسیر کانفیگ باز می‌کند (جواب 101) و داده رفت‌وبرگشت می‌فرستد تا IPهایی که تست ساده را رد می‌کنند ولی در کلاینت پینگ نمی‌دهند پیدا شوند.
 - 🧩 **فرگمنت TLS:** ارسال تکه‌تکهٔ ClientHello (حالت `tlshello` یا TCP `1-1`، مثل v2rayNG و Hiddify) تا DPI نتواند SNI را بخواند.
 - 🎯 **پیدا کردن بهترین فرگمنت:** ۲۶ تنظیم فرگمنت و حالت بدون فرگمنت را امتحان می‌کند و بهترین را با مقدارهای آمادهٔ کلاینت می‌دهد.
 - 🛰️ **پنل Hiddify و 3x-ui:** دامنه‌ها و کانفیگ‌ها را با path خودکار می‌آورد و بهترین آی‌پی‌های هر اپراتور را با یک کلیک در پنل می‌نویسد.
