@@ -48,10 +48,10 @@ Hiddify        : fragment size 20-50 · sleep 1-2
 
 ### Send the IPs to your panel
 
-In *Compare networks* → **Send to a panel**:
+In step 5, **Save the IPs** → **Send to the panel** (connect to the panel in step 2):
 
 - **Hiddify:** paste your admin link. Every domain is listed with its mode and whether DNS points to a CDN. The IPs go into the CDN IP field as `IP ISP` pairs, so Hiddify gives each user the IP of their own ISP.
-- **3x-ui (Sanaei):** panel address + **API token** (Settings → Security → API Token) or user name and password. The ws / httpupgrade / xhttp / grpc configs are listed with domain and path. The IPs go into that config's **External Proxy** list (one config per IP in the subscription, named after its ISP); clients and other settings are not touched.
+- **3x-ui (Sanaei):** panel address + **API token** (Settings → Security → API Token) or user name and password. The ws / httpupgrade / xhttp / grpc configs are listed with domain and path. The IPs go into that config's **Host group**, with one group per ISP so the config name shows the ISP (a config with no group gets a new one; panels without Host groups use its **External Proxy** list). Every group that gets IPs is turned on and carries your domain as SNI, and the fragment you found can be saved in the group of the ISP you found it on. Clients are not touched. Prefer the panel's `https://` address: over `http://` your login crosses the ISP unencrypted.
 - **Use for scanning** copies a config's domain and path into the scan settings.
 
 **Turn off your VPN before scanning**, otherwise you test the VPN, not your ISP. If Windows SmartScreen warns, click *More info → Run anyway* (the exe is not code-signed).
@@ -97,10 +97,10 @@ In *Compare networks* → **Send to a panel**:
 
 ### ارسال آی‌پی‌ها به پنل
 
-در تب «مقایسهٔ اینترنت‌ها»، بخش **ارسال به پنل**:
+در قدم ۵، **ذخیرهٔ آی‌پی‌ها**، بخش **ارسال به پنل** (اتصال به پنل در قدم ۲ است):
 
 - **Hiddify:** لینک ادمین را بدهید. همهٔ دامنه‌ها با حالتشان می‌آیند و مشخص می‌شود کدام پشت CDN است. آی‌پی‌ها به‌شکل «IP اپراتور» در فیلد CDN IP نوشته می‌شوند و هیدیفای به هر کاربر آی‌پی اپراتور خودش را می‌دهد.
-- **3x-ui (ثنایی):** آدرس پنل و **توکن API** (تنظیمات ← امنیت ← API Token) یا نام کاربری و رمز. کانفیگ‌های ws، httpupgrade، xhttp و grpc با دامنه و path می‌آیند. آی‌پی‌ها در **External Proxy** همان کانفیگ نوشته می‌شوند (در ساب، برای هر آی‌پی یک کانفیگ با اسم اپراتورش)؛ کلاینت‌ها و بقیهٔ تنظیمات دست نمی‌خورند.
+- **3x-ui (ثنایی):** آدرس پنل و **توکن API** (تنظیمات ← امنیت ← API Token) یا نام کاربری و رمز. کانفیگ‌های ws، httpupgrade، xhttp و grpc با دامنه و path می‌آیند. آی‌پی‌ها در **گروه Host** همان کانفیگ نوشته می‌شوند و هر اپراتور گروه خودش را می‌گیرد تا اسمش روی کانفیگ بیاید (کانفیگ بدون گروه، گروه جدید می‌گیرد؛ پنل‌هایی که گروه Host ندارند از لیست **External Proxy** استفاده می‌کنند). هر گروهی که آی‌پی بگیرد روشن می‌شود و دامنهٔ شما SNI آن می‌شود، و فرگمنتی که پیدا کرده‌اید را می‌توانید در گروه همان اپراتوری که رویش پیدا شده ذخیره کنید. کلاینت‌ها دست نمی‌خورند. بهتر است آدرس `https://` پنل را بزنید: با `http://` اطلاعات ورود بدون رمزنگاری از اپراتور رد می‌شود.
 - «استفاده برای اسکن» دامنه و path همان کانفیگ را در تنظیمات اسکن می‌نویسد.
 
 ### مقایسهٔ اپراتورها

@@ -271,8 +271,8 @@ Hiddify        : fragment size 20-50 · sleep 1-2</pre>
       </div>
       <div class="card">
         <h3>3x-ui (Sanaei)</h3>
-        <p data-l="fa">آدرس پنل و <b>توکن API</b> (یا نام کاربری و رمز) را بدهید. کانفیگ‌های ws، httpupgrade، xhttp و grpc با دامنه و path می‌آیند. آی‌پی‌ها در External Proxy همان کانفیگ نوشته می‌شوند؛ ساب برای هر آی‌پی یک کانفیگ با اسم اپراتورش می‌دهد. کلاینت‌ها و بقیهٔ تنظیمات دست نمی‌خورند.</p>
-        <p data-l="en">Give it the panel address and an <b>API token</b> (or user name and password). The ws, httpupgrade, xhttp and grpc configs come with their domain and path. The IPs go into that config's External Proxy list, and the subscription gives one config per IP, named after its ISP. Clients and other settings are left alone.</p>
+        <p data-l="fa">آدرس پنل و <b>توکن API</b> (یا نام کاربری و رمز) را بدهید. کانفیگ‌های ws، httpupgrade، xhttp و grpc با دامنه و path می‌آیند. آی‌پی‌ها در گروه Host همان کانفیگ نوشته می‌شوند (پنل‌های قدیمی: External Proxy)؛ ساب برای هر آی‌پی یک کانفیگ با اسم اپراتورش می‌دهد. هر گروهی که آی‌پی بگیرد روشن می‌شود و دامنهٔ شما SNI آن می‌شود، و فرگمنت پیداشده را هم می‌توانید در گروه همان اپراتور ذخیره کنید. کلاینت‌ها دست نمی‌خورند.</p>
+        <p data-l="en">Give it the panel address and an <b>API token</b> (or user name and password). The ws, httpupgrade, xhttp and grpc configs come with their domain and path. The IPs go into that config's Host group (older panels: External Proxy), and the subscription gives one config per IP, named after its ISP. Every group that gets IPs is turned on with your domain as SNI, and the fragment you found can be saved in that ISP's group. Clients are left alone.</p>
       </div>
     </div>
     <div class="note" data-l="fa">با «استفاده برای اسکن»، دامنه و path همان کانفیگ خودکار در تنظیمات اسکن نوشته می‌شود.</div>
