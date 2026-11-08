@@ -3,7 +3,7 @@
 <a href="https://hits.sh/github.com/Plus98ir/CDN-Clean-Scanner/"><img src="https://hits.sh/github.com/Plus98ir/CDN-Clean-Scanner.svg?style=for-the-badge&label=views&color=f38020" alt="Views"></a>
 <a href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest"><img src="https://img.shields.io/github/release-date/Plus98ir/CDN-Clean-Scanner?style=for-the-badge&label=latest%20build&color=8b7cf6" alt="Latest build"></a>
 
-**[English](#english) · [فارسی](#فارسی)** · Website: https://plus98ir.dpdns.org/CDN-Clean-Scanner/
+**[English](#english) · [فارسی](#فارسی)** · Website: https://corenetbase.com/CDN-Clean-Scanner/
 
 ![CDN Clean Scanner](hero.png)
 
