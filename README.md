@@ -1,8 +1,6 @@
-# CDN Clean Scanner
+<h1 align="center">CDN Clean Scanner</h1>
 
-<a href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest"><img src="https://img.shields.io/github/release-date/Plus98ir/CDN-Clean-Scanner?style=for-the-badge&label=latest%20build&color=8b7cf6" alt="Latest build"></a>
-
-<p align="center"><a href="https://hits.sh/github.com/Plus98ir/CDN-Clean-Scanner/"><img src="https://hits.sh/github.com/Plus98ir/CDN-Clean-Scanner.svg?style=for-the-badge&label=views&color=f38020" alt="Views"></a> <a href="https://corenetbase.com/#support"><img src="https://img.shields.io/badge/support-buy%20me%20a%20coffee-e11d2a?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Support"></a></p>
+<p align="center"><a href="https://hits.sh/github.com/Plus98ir/CDN-Clean-Scanner/"><img src="https://hits.sh/github.com/Plus98ir/CDN-Clean-Scanner.svg?style=for-the-badge&label=views&color=f38020" alt="Views"></a> <a href="https://corenetbase.com/#support"><img src="https://img.shields.io/badge/support-buy%20me%20a%20coffee-e11d2a?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Support"></a> <a href="https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest"><img src="https://img.shields.io/github/release-date/Plus98ir/CDN-Clean-Scanner?style=for-the-badge&label=latest%20build&color=8b7cf6" alt="Latest build"></a></p>
 
 <details>
 <summary><b>☕ Support · حمایت</b> — USDT (TRC20) / TRX</summary>
@@ -16,69 +14,6 @@ TA53aFyGNfSAcrCaJi9QmA9x5W47nPJcf7
 > [!WARNING]
 > **TRON network only.** Sending from ERC20 / BEP20 will lose the funds.<br>
 > **فقط شبکه‌ی TRON.** ارسال از ERC20 یا BEP20 پول را از بین می‌برد.
-
-</details>
-
-<details open>
-<summary><b>🇺🇸 English</b></summary>
-
-Website: https://corenetbase.com/CDN-Clean-Scanner/
-
-![CDN Clean Scanner](hero.png)
-
-**The professional clean-IP scanner for Cloudflare, Fastly, Gcore and Amazon CloudFront.** It tests every IP with **real traffic** on your own internet, shows **which IP works on which ISP** (MCI, Irancell, TCI, RighTel…), finds the **best TLS fragment** setting for your network, and puts the clean IPs straight into your **Hiddify or 3x-ui** panel.
-
-A ping is not enough: some ISPs let the ping and TLS handshake through, then cut the connection after ~1.3 KB of upload. This scanner opens TLS to each IP with your own domain as SNI and sends a real upload (5 KB by default). Only IPs that answer are kept.
-
-### Download
-
-| | Download | |
-|---|---|---|
-| **Windows** | [CDN-Clean-Scanner.exe](https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.exe) | double-click; no Python needed |
-| **Android** | [CDN-Clean-Scanner.apk](https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.apk) | allow "install unknown apps"; no root |
-
-The app checks for new builds by itself and shows a banner (plus a notification on Android) with the list of changes.
-
-### Features
-
-| | |
-|---|---|
-| ⬆️ **Real upload test** | TLS with your domain as SNI + a real upload; IPs that only pass the handshake are dropped. |
-| 📶 **Per-ISP results** | The ISP is detected by AS number and every result is saved under it. *Compare networks* has one column per ISP. |
-| 🔌 **Full test** | For ws / httpupgrade configs: a real WebSocket on your config's path (expects 101), then data both ways, to find IPs that pass a simple test but give no ping in the client. |
-| 🧩 **TLS fragment** | Sends the ClientHello in pieces (`tlshello` or TCP `1-1`, like v2rayNG / Xray / Hiddify) so DPI can't read the SNI. |
-| 🎯 **Best-fragment finder** | Tries 26 fragment settings and no fragment on working IPs, picks the best and prints the client values. |
-| 🛰️ **Hiddify / 3x-ui panels** | Loads the panel's domains / configs with their path, builds the best IPs per ISP and writes them in one click. |
-| 🌐 **4 CDNs, ~1400 ranges** | Official lists plus every prefix each CDN announces. |
-| 📍 **Datacenter city & country** | From CF-RAY / X-Served-By / X-Amz-Cf-Pop; filter by country, *Find more* tests /24 neighbours. |
-| 🔒 **Local and private** | Runs on 127.0.0.1 only. Panel links, tokens and passwords are used for that request only. |
-
-### Fragment
-
-1. Scan normally to find some working IPs (if none pass, tick **TLS fragment** and scan again).
-2. In the **Fragment** tab press **Find the best fragment** (about a minute).
-3. The best setting is shown with ready values; **Use** applies it to your next scans. If everything also passes without fragment, it says so.
-
-```
-v2rayNG / Xray : packets tlshello · length 20-50 · interval 1-2
-Hiddify        : fragment size 20-50 · sleep 1-2
-```
-
-### Send the IPs to your panel
-
-In step 5, **Save the IPs** → **Send to the panel** (connect to the panel in step 2):
-
-- **Hiddify:** paste your admin link. Every domain is listed with its mode and whether DNS points to a CDN. The IPs go into the CDN IP field as `IP ISP` pairs, so Hiddify gives each user the IP of their own ISP.
-- **3x-ui (Sanaei):** panel address + **API token** (Settings → Security → API Token) or user name and password. The ws / httpupgrade / xhttp / grpc configs are listed with domain and path. The IPs go into that config's **Host group**, with one group per ISP so the config name shows the ISP (a config with no group gets a new one; panels without Host groups use its **External Proxy** list). Every group that gets IPs is turned on and carries your domain as SNI, and the fragment you found can be saved in the group of the ISP you found it on. Clients are not touched. Prefer the panel's `https://` address: over `http://` your login crosses the ISP unencrypted.
-- **Use for scanning** copies a config's domain and path into the scan settings.
-
-**Turn off your VPN before scanning**, otherwise you test the VPN, not your ISP. If Windows SmartScreen warns, click *More info → Run anyway* (the exe is not code-signed).
-
-### Screenshots
-
-| Scan results | Best-fragment finder |
-|---|---|
-| ![Scan](img/scan-en.png) | ![Fragment](img/frag-en.png) |
 
 </details>
 
@@ -143,5 +78,68 @@ In step 5, **Save the IPs** → **Send to the panel** (connect to the panel in s
 | نتیجهٔ اسکن | پیدا کردن بهترین فرگمنت |
 |---|---|
 | ![اسکن](img/scan-fa.png) | ![فرگمنت](img/frag-fa.png) |
+
+</details>
+
+<details open>
+<summary><b>🇺🇸 English</b></summary>
+
+Website: https://corenetbase.com/CDN-Clean-Scanner/
+
+![CDN Clean Scanner](hero.png)
+
+**The professional clean-IP scanner for Cloudflare, Fastly, Gcore and Amazon CloudFront.** It tests every IP with **real traffic** on your own internet, shows **which IP works on which ISP** (MCI, Irancell, TCI, RighTel…), finds the **best TLS fragment** setting for your network, and puts the clean IPs straight into your **Hiddify or 3x-ui** panel.
+
+A ping is not enough: some ISPs let the ping and TLS handshake through, then cut the connection after ~1.3 KB of upload. This scanner opens TLS to each IP with your own domain as SNI and sends a real upload (5 KB by default). Only IPs that answer are kept.
+
+### Download
+
+| | Download | |
+|---|---|---|
+| **Windows** | [CDN-Clean-Scanner.exe](https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.exe) | double-click; no Python needed |
+| **Android** | [CDN-Clean-Scanner.apk](https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.apk) | allow "install unknown apps"; no root |
+
+The app checks for new builds by itself and shows a banner (plus a notification on Android) with the list of changes.
+
+### Features
+
+| | |
+|---|---|
+| ⬆️ **Real upload test** | TLS with your domain as SNI + a real upload; IPs that only pass the handshake are dropped. |
+| 📶 **Per-ISP results** | The ISP is detected by AS number and every result is saved under it. *Compare networks* has one column per ISP. |
+| 🔌 **Full test** | For ws / httpupgrade configs: a real WebSocket on your config's path (expects 101), then data both ways, to find IPs that pass a simple test but give no ping in the client. |
+| 🧩 **TLS fragment** | Sends the ClientHello in pieces (`tlshello` or TCP `1-1`, like v2rayNG / Xray / Hiddify) so DPI can't read the SNI. |
+| 🎯 **Best-fragment finder** | Tries 26 fragment settings and no fragment on working IPs, picks the best and prints the client values. |
+| 🛰️ **Hiddify / 3x-ui panels** | Loads the panel's domains / configs with their path, builds the best IPs per ISP and writes them in one click. |
+| 🌐 **4 CDNs, ~1400 ranges** | Official lists plus every prefix each CDN announces. |
+| 📍 **Datacenter city & country** | From CF-RAY / X-Served-By / X-Amz-Cf-Pop; filter by country, *Find more* tests /24 neighbours. |
+| 🔒 **Local and private** | Runs on 127.0.0.1 only. Panel links, tokens and passwords are used for that request only. |
+
+### Fragment
+
+1. Scan normally to find some working IPs (if none pass, tick **TLS fragment** and scan again).
+2. In the **Fragment** tab press **Find the best fragment** (about a minute).
+3. The best setting is shown with ready values; **Use** applies it to your next scans. If everything also passes without fragment, it says so.
+
+```
+v2rayNG / Xray : packets tlshello · length 20-50 · interval 1-2
+Hiddify        : fragment size 20-50 · sleep 1-2
+```
+
+### Send the IPs to your panel
+
+In step 5, **Save the IPs** → **Send to the panel** (connect to the panel in step 2):
+
+- **Hiddify:** paste your admin link. Every domain is listed with its mode and whether DNS points to a CDN. The IPs go into the CDN IP field as `IP ISP` pairs, so Hiddify gives each user the IP of their own ISP.
+- **3x-ui (Sanaei):** panel address + **API token** (Settings → Security → API Token) or user name and password. The ws / httpupgrade / xhttp / grpc configs are listed with domain and path. The IPs go into that config's **Host group**, with one group per ISP so the config name shows the ISP (a config with no group gets a new one; panels without Host groups use its **External Proxy** list). Every group that gets IPs is turned on and carries your domain as SNI, and the fragment you found can be saved in the group of the ISP you found it on. Clients are not touched. Prefer the panel's `https://` address: over `http://` your login crosses the ISP unencrypted.
+- **Use for scanning** copies a config's domain and path into the scan settings.
+
+**Turn off your VPN before scanning**, otherwise you test the VPN, not your ISP. If Windows SmartScreen warns, click *More info → Run anyway* (the exe is not code-signed).
+
+### Screenshots
+
+| Scan results | Best-fragment finder |
+|---|---|
+| ![Scan](img/scan-en.png) | ![Fragment](img/frag-en.png) |
 
 </details>
