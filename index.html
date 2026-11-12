@@ -11,6 +11,8 @@
 <link rel="apple-touch-icon" href="icon.png">
 <meta property="og:image" content="https://corenetbase.com/CDN-Clean-Scanner/CDN-Clean-Scanner.png">
 <style>
+:root{--gutter:max(50px,3vw)}@media (max-width:640px){:root{--gutter:16px}}
+
 :root {
   --bg: #0b0e13; --card: #141921; --card2: #1a2029; --text: #e8ebef; --muted: #9aa3ae; --line: #262d38;
   --accent: #f38020; --accent2: #ffb35c; --accent-ink: #1a1009; --ok: #4ade80; --bad: #f87171; --violet: #a99bff;
@@ -25,7 +27,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.7 "Seg
 html[lang="fa"] body { font-family: Vazirmatn, "Segoe UI", Tahoma, sans-serif; line-height: 1.9; }
 a { color: var(--accent2); }
 code { background: var(--card2); border: 1px solid var(--line); padding: 1px 6px; border-radius: 5px; font-family: Consolas, Menlo, monospace; font-size: 13px; direction: ltr; unicode-bidi: isolate; }
-header { display: flex; align-items: center; gap: 12px; padding: 14px 32px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--card) 88%, transparent); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 5; }
+header { display: flex; align-items: center; gap: 12px; padding: 14px var(--gutter); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--card) 88%, transparent); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 5; }
 .logo { width: 34px; height: 34px; display: block; }
 header b { font-size: 17px; }
 .spacer { flex: 1; }
@@ -36,9 +38,9 @@ header b { font-size: 17px; }
 .seg button { border: 0; background: transparent; color: var(--text); padding: 6px 12px; cursor: pointer; font: inherit; }
 .seg button.on { background: var(--accent); color: var(--accent-ink); }
 .gh { color: var(--text); text-decoration: none; border: 1px solid var(--line); border-radius: 8px; padding: 5px 12px; }
-main { width: 100%; padding: 24px 32px 40px; }
+main { width: 100%; padding: 24px var(--gutter) 40px; }
 .hero { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: 48px; align-items: center; padding: 28px 0 36px; }
-.hero::before { content: ""; position: absolute; inset: -40px -32px auto; height: 520px; z-index: -1; pointer-events: none;
+.hero::before { content: ""; position: absolute; inset: -40px calc(-1 * var(--gutter)) auto; height: 520px; z-index: -1; pointer-events: none;
   background: radial-gradient(500px 340px at 15% 30%, rgba(243,128,32,.16), transparent 70%), radial-gradient(600px 400px at 85% 40%, rgba(124,92,255,.14), transparent 70%); }
 .badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--card); border-radius: 99px; padding: 4px 12px; font-size: 13px; color: var(--muted); margin-bottom: 16px; }
 .badge i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); }
@@ -82,7 +84,7 @@ th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: st
 th { color: var(--muted); font-weight: 600; }
 .ok { color: var(--ok); } .bad { color: var(--bad); } .na { color: var(--muted); }
 .tablewrap { overflow-x: auto; }
-footer { border-top: 1px solid var(--line); padding: 18px 32px; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+footer { border-top: 1px solid var(--line); padding: 18px var(--gutter); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 20px; }
 [data-l] { display: none; }
 html[lang="fa"] [data-l="fa"], html[lang="en"] [data-l="en"] { display: revert; }
 html:not([lang="fa"]) [data-l="fa"], html:not([lang="en"]) [data-l="en"] { display: none !important; }
@@ -96,11 +98,11 @@ html:not([lang="fa"]) [data-l="fa"], html:not([lang="en"]) [data-l="en"] { displ
   .grid.three { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
-  header { padding: 10px 16px; gap: 8px; }
+  header { padding: 10px var(--gutter); gap: 8px; }
   header b { font-size: 15px; }
   .gh { display: none; }
-  main { padding: 16px 16px 32px; }
-  footer { padding: 16px; }
+  main { padding: 16px var(--gutter) 32px; }
+  footer { padding: 16px var(--gutter); }
   .btn { flex: 1 1 auto; justify-content: center; }
   .hero p { font-size: 15.5px; }
   .stats { grid-template-columns: 1fr 1fr; }
