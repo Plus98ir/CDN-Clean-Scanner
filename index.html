@@ -408,37 +408,44 @@ Hiddify        : fragment size 20-50 · sleep 1-2</pre>
 })();
 </script>
 <script>
-// Download links follow the newest build: the release's versioned file (App-v1.3-build33.exe) and
-// "v1.3 build 33" on the buttons. Without GitHub's API (filtered networks) the fixed links stay.
+// Download links follow the newest build: the versioned file (App-v1.3-build33.exe) and
+// "v1.3 build 33" on the buttons. latest.json sits next to this page (CI writes it), since
+// api.github.com is filtered in Iran; that API is only the fallback. Without both, fixed links stay.
 (function () {
   var links = document.querySelectorAll('a[href*="/releases/latest/download/"]');
   if (!links.length) return;
   var parts = links[0].href.split('/');
-  fetch('https://api.github.com/repos/' + parts[3] + '/' + parts[4] + '/releases/latest')
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (rel) {
-      if (!rel) return;
-      var names = (rel.assets || []).map(function (a) { return a.name; });
-      links.forEach(function (a) {
-        var fixed = a.href.split('/').pop();
-        var m = fixed.match(/^(.+)\.(exe|apk)$/);
-        if (!m) return;
-        var re = new RegExp('^' + m[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '-v([0-9.]+)-build([0-9]+)\\.' + m[2] + '$');
-        var hit = null;
-        names.forEach(function (n) { hit = hit || n.match(re); });
-        if (!hit) return;
-        a.href = a.href.replace(/[^/]+$/, hit[0]);
-        if (a.textContent.trim() === fixed) {
-          a.textContent = hit[0];
-        } else if (a.classList.contains('btn')) {
-          var s = document.createElement('small');
-          s.className = 'ver';
-          s.dir = 'ltr';
-          s.textContent = ' v' + hit[1] + ' build ' + hit[2];
-          a.appendChild(s);
-        }
-      });
+  function json(url) {
+    return fetch(url, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : Promise.reject(); });
+  }
+  function apply(names) {
+    links.forEach(function (a) {
+      var fixed = a.href.split('/').pop();
+      var m = fixed.match(/^(.+)\.(exe|apk)$/);
+      if (!m) return;
+      var re = new RegExp('^' + m[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '-v([0-9.]+)-build([0-9]+)\\.' + m[2] + '$');
+      var hit = null;
+      names.forEach(function (n) { hit = hit || n.match(re); });
+      if (!hit) return;
+      a.href = a.href.replace(/[^/]+$/, hit[0]);
+      if (a.textContent.trim() === fixed) {
+        a.textContent = hit[0];
+      } else if (a.classList.contains('btn')) {
+        var s = document.createElement('small');
+        s.className = 'ver';
+        s.dir = 'ltr';
+        s.textContent = ' v' + hit[1] + ' build ' + hit[2];
+        a.appendChild(s);
+      }
+    });
+  }
+  json('latest.json')
+    .then(function (d) { return d.files; })
+    .catch(function () {
+      return json('https://api.github.com/repos/' + parts[3] + '/' + parts[4] + '/releases/latest')
+        .then(function (rel) { return (rel.assets || []).map(function (a) { return a.name; }); });
     })
+    .then(function (names) { if (names) apply(names); })
     .catch(function () {});
 })();
 </script>
