@@ -32,8 +32,8 @@ A ping is not enough: some ISPs let the ping and TLS handshake through, then cut
 
 | | Download | |
 |---|---|---|
-| **Windows** | [CDN-Clean-Scanner.exe](https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.exe) | double-click; no Python needed |
-| **Android** | [CDN-Clean-Scanner.apk](https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.apk) | allow "install unknown apps"; no root |
+| **Windows** | [CDN-Clean-Scanner.exe](https://corenetbase.com/CDN-Clean-Scanner/dl/CDN-Clean-Scanner.exe) | double-click; no Python needed |
+| **Android** | [CDN-Clean-Scanner.apk](https://corenetbase.com/CDN-Clean-Scanner/dl/CDN-Clean-Scanner.apk) | allow "install unknown apps"; no root |
 
 The app checks for new builds by itself and shows a banner (plus a notification on Android) with the list of changes.
 
@@ -88,8 +88,8 @@ In step 5, **Save the IPs** → **Send to the panel** (connect to the panel in s
 
 ### دانلود
 
-- **ویندوز:** [CDN-Clean-Scanner.exe](https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.exe) را دانلود کنید و رویش دوبار کلیک کنید؛ پایتون لازم نیست. اگر ویندوز هشدار داد، More info و بعد Run anyway را بزنید.
-- **اندروید:** [CDN-Clean-Scanner.apk](https://github.com/Plus98ir/CDN-Clean-Scanner/releases/latest/download/CDN-Clean-Scanner.apk) را نصب کنید (اجازهٔ نصب از منابع ناشناس را بدهید؛ روت لازم نیست). اگر اجازهٔ اعلان خواست، Allow بزنید.
+- **ویندوز:** [CDN-Clean-Scanner.exe](https://corenetbase.com/CDN-Clean-Scanner/dl/CDN-Clean-Scanner.exe) را دانلود کنید و رویش دوبار کلیک کنید؛ پایتون لازم نیست. اگر ویندوز هشدار داد، More info و بعد Run anyway را بزنید.
+- **اندروید:** [CDN-Clean-Scanner.apk](https://corenetbase.com/CDN-Clean-Scanner/dl/CDN-Clean-Scanner.apk) را نصب کنید (اجازهٔ نصب از منابع ناشناس را بدهید؛ روت لازم نیست). اگر اجازهٔ اعلان خواست، Allow بزنید.
 
 برنامه خودش نسخهٔ جدید را چک می‌کند و با بنر (و روی اندروید با اعلان) همراه لیست تغییرات خبر می‌دهد.
 
