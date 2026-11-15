@@ -1,0 +1,38 @@
+# Publishes the site with the "latest" release files under dl/, so downloads come from
+# corenetbase.com: release-assets.githubusercontent.com is blocked on many networks in Iran.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Site + release files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p _site/dl
+          rsync -a --exclude .git --exclude .github --exclude _site ./ _site/
+          gh release download latest -R "$GITHUB_REPOSITORY" -D _site/dl
+          ls -l _site/dl
+          test -s _site/dl/version.json
+      - uses: actions/upload-pages-artifact@v3
+      - id: deployment
+        uses: actions/deploy-pages@v4
