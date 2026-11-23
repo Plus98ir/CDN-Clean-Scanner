@@ -35,6 +35,8 @@ A ping is not enough: some ISPs let the ping and TLS handshake through, then cut
 | **Windows** | [CDN-Clean-Scanner.exe](https://corenetbase.com/CDN-Clean-Scanner/dl/CDN-Clean-Scanner.exe) | double-click; no Python needed |
 | **Android** | [CDN-Clean-Scanner.apk](https://corenetbase.com/CDN-Clean-Scanner/dl/CDN-Clean-Scanner.apk) | allow "install unknown apps"; no root |
 
+> **Why does Google offer to scan the app?** This app isn't installed from Google Play, so Google doesn't know it yet and offers to check it before install. This happens with every app published outside Play. It's your choice: if you tap **Scan app**, Google checks the file itself and shows you the result.
+
 The app checks for new builds by itself and shows a banner (plus a notification on Android) with the list of changes.
 
 ### Features
@@ -90,6 +92,8 @@ In step 5, **Save the IPs** → **Send to the panel** (connect to the panel in s
 
 - **ویندوز:** [CDN-Clean-Scanner.exe](https://corenetbase.com/CDN-Clean-Scanner/dl/CDN-Clean-Scanner.exe) را دانلود کنید و رویش دوبار کلیک کنید؛ پایتون لازم نیست. اگر ویندوز هشدار داد، More info و بعد Run anyway را بزنید.
 - **اندروید:** [CDN-Clean-Scanner.apk](https://corenetbase.com/CDN-Clean-Scanner/dl/CDN-Clean-Scanner.apk) را نصب کنید (اجازهٔ نصب از منابع ناشناس را بدهید؛ روت لازم نیست). اگر اجازهٔ اعلان خواست، Allow بزنید.
+
+> **چرا موقع نصب، گوگل پیشنهاد اسکن می‌دهد؟** این برنامه از Google Play نصب نمی‌شود، برای همین گوگل هنوز آن را نمی‌شناسد و پیشنهاد می‌دهد قبل از نصب بررسی‌اش کند. این پیغام برای همهٔ برنامه‌هایی که بیرون از Play منتشر می‌شوند می‌آید. انتخاب با شماست؛ اگر **Scan app** را بزنید، خود گوگل فایل را بررسی می‌کند و نتیجه را به شما نشان می‌دهد.
 
 برنامه خودش نسخهٔ جدید را چک می‌کند و با بنر (و روی اندروید با اعلان) همراه لیست تغییرات خبر می‌دهد.
 
